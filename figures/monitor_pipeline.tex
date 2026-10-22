@@ -1,0 +1,14 @@
+\begin{center}
+\begin{tikzpicture}[every node/.style={font=\small},x=1cm,y=1cm]
+\useasboundingbox (-0.1,-0.05) rectangle (14.3,2.7);
+\node[module,text width=2.6cm] (queries) at (1.45,0.55) {New query\\window};
+\node[module,text width=2.6cm] (encoder) at (5.05,0.55) {Sentence\\encoder};
+\node[accentmodule,text width=2.6cm] (mmd) at (8.65,0.55) {MMD\\distribution score};
+\node[module,text width=2.6cm] (alarm) at (12.25,0.55) {Calibrated\\window decision};
+\node[whitecard,text width=2.9cm,align=center,font=\small] (ref) at (8.65,2.1) {Embedded benign\\reference};
+\draw[myarrow] (queries)--(encoder);
+\draw[myarrow] (encoder)--(mmd);
+\draw[myarrow] (mmd)--(alarm);
+\draw[softarrow] (ref)--(mmd);
+\end{tikzpicture}
+\end{center}
