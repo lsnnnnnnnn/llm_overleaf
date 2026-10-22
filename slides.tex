@@ -1,0 +1,187 @@
+% 1 -----------------------------------------------------------
+\begin{frame}[t]{Proposed project: continuous LLM API monitoring}
+\vspace{0.1cm}
+\input{figures/monitor_pipeline}
+\par\vspace{0.25cm}
+\begin{columns}[T,onlytextwidth]
+\column{0.49\textwidth}
+\keyterm{Reusable artifacts}
+\begin{itemize}\setlength\itemsep{0.3em}
+\item Query data and baseline code.
+\item Fixed BGE-small embeddings.
+\item Benign-only calibration.
+\end{itemize}
+\column{0.48\textwidth}
+\keyterm{Scope of the existing study}
+\begin{itemize}\setlength\itemsep{0.3em}
+\item Offline traffic windows.
+\item Mixed and adaptive attacks.
+\item Reference contamination.
+\end{itemize}
+\end{columns}
+\sourceline{\refpaper. \refrepo. Published setup: query-only, offline window decisions.}
+\end{frame}
+
+% 2 -----------------------------------------------------------
+\begin{frame}[t]{The research question is sustained monitoring}
+\vspace{0.15cm}
+\lead{How early can we detect extraction under changing normal usage, at the same false-alarm budget?}
+\vspace{-0.15cm}
+\input{figures/stream_schematic}
+\par\vspace{-0.1cm}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\keyterm{Repeated decisions}\par
+{\small Window-level errors can accumulate over a monitoring run.\par}
+\column{0.48\textwidth}
+\keyterm{A changing reference}\par
+{\small Adaptation may reduce drift alerts and also absorb extraction traffic.\par}
+\end{columns}
+\sourceline{Motivation: \refpaper, Limitations. The query-order schematic shows a proposed replay design, not measured outputs.}
+\end{frame}
+
+% 3 -----------------------------------------------------------
+\begin{frame}[t]{Controlled replay under benign traffic changes}
+\vspace{0.2cm}
+\renewcommand{\arraystretch}{1.5}
+{\small
+\begin{tabularx}{\textwidth}{@{}L{3.0cm}Y Y@{}}
+\toprule
+ & \keyterm{No extraction traffic} & \keyterm{Sparse extraction traffic}\\
+\midrule
+\textbf{Stable normal usage} &
+False alarms over a full run. &
+Detection within a query budget.\\
+\textbf{Changing normal usage} &
+Alerts caused by benign change. &
+Detection while normal usage changes.\\
+\bottomrule
+\end{tabularx}\par}
+\vspace{0.5cm}
+\keyterm{Initial pairs:}\quad
+{\small\texttt{model\_leeching}\quad and\quad\texttt{Meaeq\_SST-2}}\par
+\vspace{0.25cm}
+Split source queries before constructing streams. Reuse each replay across methods. Measure delay in query counts.
+\sourceline{\refrepo. The README illustrates id, index, and query. Production timestamps and account histories are not established by this artifact.}
+\end{frame}
+
+% 4 -----------------------------------------------------------
+\begin{frame}[t]{Alarm rules and sequential baselines}
+\vspace{0.1cm}
+\renewcommand{\arraystretch}{1.25}
+{\small
+\begin{tabularx}{\textwidth}{@{}L{4.4cm}Y@{}}
+\toprule
+\keyterm{Comparison} & \keyterm{What it tells us}\\
+\midrule
+Published MMD setup &
+Checks a restricted reproduction.\\
+MMD + run-level threshold &
+Isolates calibration for repeated decisions.\\
+MMD + accumulation &
+Tests evidence combined across windows.\\
+KCUSUM &
+An established kernel sequential detector.\\
+CALM &
+An established sequential-calibration approach.\\
+\bottomrule
+\end{tabularx}\par}
+\vspace{0.35cm}
+{\small\keyterm{Shared inputs:} same query pools, replays, decision times, and calibration budget.\par}
+\vspace{0.15cm}
+\smallnote{Keep the original threshold as a reproduction reference; calibrate eligible methods to the same run-level target for the main comparison.}
+\sourceline{\refpaper;
+\href{https://arxiv.org/abs/1903.01661}{Flynn \& Yoo, KCUSUM, CDC 2019};
+\href{https://proceedings.mlr.press/v151/cobb22a.html}{Cobb et al., CALM, AISTATS 2022}.\\
+KCUSUM and CALM use their native update and calibration schemes.}
+\end{frame}
+
+% 5 -----------------------------------------------------------
+\begin{frame}[t]{Timely detection at a matched false-alarm target}
+\vspace{0.2cm}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\keyterm{Benign run}
+\[
+\Pr_0(T\le H)
+\]
+{\small At least one false alarm in $H$ queries.\par}
+\column{0.48\textwidth}
+\keyterm{Attack run}
+\[
+\Pr\!\left(\tau\le T\le \min(\tau+B,H)\right)
+\]
+{\small Detection within $B$ queries after onset $\tau$.\par}
+\end{columns}
+\par\vspace{0.35cm}
+{\small\keyterm{Primary comparison:} calibrate on benign replays including the declared drift family; evaluate on held-out runs. Also report delay and late or missed attacks.\par}
+\vspace{0.2cm}
+\begin{block}{First-alarm protocol}
+{\small $T$ is the first alarm index; $T=\infty$ means no alarm.
+An alarm before onset is a false alarm and fails the timely-detection criterion.}
+\end{block}
+\sourceline{Proposed metrics. $H$: monitoring horizon. Stable-only calibration followed by unseen drift is a separate stress test, without a matched-budget claim.}
+\end{frame}
+
+% 6 -----------------------------------------------------------
+\begin{frame}[t]{Reference updates under explicit information assumptions}
+\vspace{0.3cm}
+\begin{columns}[c,onlytextwidth]
+\column{0.58\textwidth}
+\input{figures/reference_update}
+\column{0.39\textwidth}
+\keyterm{Proposed hypothesis}\par
+{\small Updates may reduce alerts from benign change, while unverified updates may hide persistent extraction.\par}
+\vspace{0.3cm}
+\keyterm{Information requirement}\par
+{\small Trusted updates need verified benign queries. Hidden test labels define an oracle diagnostic only.\par}
+\end{columns}
+\sourceline{Reference contamination is evaluated in \refpaper. Proposed comparison: full-run update policies under drift, with a shared verification budget.}
+\end{frame}
+
+% 7 -----------------------------------------------------------
+\begin{frame}[t]{Evidence required for a research contribution}
+\vspace{0.2cm}
+\renewcommand{\arraystretch}{1.4}
+{\small
+\begin{tabularx}{\textwidth}{@{}L{7.0cm}Y@{}}
+\toprule
+\keyterm{Evidence from the study} & \keyterm{Next step}\\
+\midrule
+A failure survives matched calibration and existing sequential baselines. &
+Investigate a targeted monitoring method.\\
+Reference updates introduce a further failure under explicit assumptions. &
+Study the update rule and information needs.\\
+Simple calibration or existing methods resolve the difficulty. &
+Report it; narrow or revise the question.\\
+\bottomrule
+\end{tabularx}\par}
+\vspace{0.5cm}
+Check whether the pattern survives a second data pair and a new source split.
+\sourceline{Decision criteria for a proposed study. No new performance results or novelty claims are assumed here.}
+\end{frame}
+
+% 8 -----------------------------------------------------------
+\begin{frame}[t]{Study scope and expected outputs}
+\vspace{0.2cm}
+\lead{Query-only monitoring under declared benign changes.}
+\begin{columns}[T,onlytextwidth]
+\column{0.48\textwidth}
+\keyterm{Experimental scope}
+\begin{itemize}\setlength\itemsep{0.55em}
+\item Controlled query-only replay.
+\item Fixed query representations.
+\item Declared drift and verification.
+\end{itemize}
+\column{0.48\textwidth}
+\keyterm{Expected outputs}
+\begin{itemize}\setlength\itemsep{0.55em}
+\item Reproducible replay configurations.
+\item False alarms and timely detection.
+\item Evidence for a focused method.
+\end{itemize}
+\end{columns}
+\par\vspace{0.25cm}
+{\small Residual failures determine whether a new monitoring mechanism is needed.\par}
+\sourceline{Proposed study. No new detector performance or deployment guarantee is assumed.}
+\end{frame}

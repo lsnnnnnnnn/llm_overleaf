@@ -1,0 +1,110 @@
+
+\usetheme[
+  progressbar=frametitle,
+  numbering=fraction,
+  sectionpage=none
+]{metropolis}
+
+\metroset{block=transparent}
+
+\definecolor{SoftBlue}{RGB}{76,112,150}
+\definecolor{SoftGray}{RGB}{245,247,250}
+\definecolor{BlockBlue}{RGB}{220,232,245}
+\definecolor{BlockBlueDark}{RGB}{200,220,240}
+\definecolor{BaseGray}{RGB}{135,145,158}
+\definecolor{AccentBlue}{RGB}{60,102,170}
+\definecolor{WarmOrange}{RGB}{210,126,71}
+\definecolor{SoftGreen}{RGB}{83,145,126}
+\definecolor{DarkText}{RGB}{28,31,35}
+\definecolor{LightTan}{RGB}{247,243,236}
+
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{structure}{fg=SoftBlue}
+\setbeamercolor{alerted text}{fg=SoftBlue}
+\setbeamercolor{frametitle}{fg=black,bg=white}
+\setbeamercolor{progress bar}{fg=SoftBlue,bg=gray!20}
+\setbeamercolor{progress bar in head/foot}{fg=SoftBlue,bg=gray!20}
+\setbeamercolor{title separator}{fg=SoftBlue}
+\setbeamercolor{block title}{fg=black,bg=BlockBlueDark}
+\setbeamercolor{block body}{fg=black,bg=BlockBlue}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{footline}[frame number]
+\setbeamerfont{caption}{size=\tiny}
+\setbeamersize{text margin left=7mm,text margin right=7mm}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\usepackage{amsmath,amssymb}
+\graphicspath{{figures/}}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric}
+
+\hypersetup{colorlinks=true,urlcolor=SoftBlue,linkcolor=SoftBlue}
+
+\newcommand{\keyterm}[1]{\textbf{\color{SoftBlue}#1}}
+
+\tikzset{
+  myarrow/.style={-{Latex[length=2.4mm]}, line width=1.15pt, draw=SoftBlue},
+  softarrow/.style={-{Latex[length=2.1mm]}, line width=0.9pt, draw=gray!55},
+  candidateedge/.style={draw=gray!55, dashed, line width=0.9pt},
+  exposureedge/.style={-{Latex[length=2.4mm]}, draw=AccentBlue, line width=1.5pt},
+  formededge/.style={draw=SoftGreen!80!black, line width=1.55pt},
+  loopedge/.style={-{Stealth[length=3.4mm,width=2.5mm]}, draw=SoftBlue!85, line width=1.2pt, line cap=round},
+  feedbackedge/.style={-{Stealth[length=3.4mm,width=2.5mm]}, draw=WarmOrange!85!black, line width=1.2pt, line cap=round},
+  card/.style={rounded corners=6pt, draw=SoftBlue!38, fill=SoftGray, line width=0.8pt, inner sep=6pt},
+  bluecard/.style={rounded corners=6pt, draw=AccentBlue!55, fill=BlockBlue, line width=0.95pt, inner sep=6pt},
+  orangecard/.style={rounded corners=6pt, draw=WarmOrange!65!black, fill=WarmOrange!10, line width=0.95pt, inner sep=6pt},
+  greencard/.style={rounded corners=6pt, draw=SoftGreen!65!black, fill=SoftGreen!10, line width=0.95pt, inner sep=6pt},
+  whitecard/.style={rounded corners=6pt, draw=gray!25, fill=white, line width=0.8pt, inner sep=6pt},
+  stage/.style={rounded corners=8pt, draw=SoftBlue!45, fill=SoftGray, line width=0.85pt, minimum width=3.2cm, minimum height=1.08cm, align=center, inner sep=5pt, font=\bfseries\small},
+  stageblue/.style={stage, fill=BlockBlue, draw=SoftBlue!75},
+  stageorange/.style={stage, fill=WarmOrange!10, draw=WarmOrange!60!black},
+  module/.style={rounded corners=6pt, draw=SoftBlue!45, fill=SoftGray, line width=0.85pt, align=center, minimum height=1.05cm, inner sep=4pt},
+  accentmodule/.style={rounded corners=6pt, draw=AccentBlue!60, fill=BlockBlue, line width=1.0pt, align=center, minimum height=1.05cm, inner sep=4pt},
+  usernode/.style={circle, minimum size=6.2mm, inner sep=0pt, fill=BlockBlue, draw=AccentBlue!70, line width=0.9pt, font=\scriptsize\bfseries},
+  itemnode/.style={circle, minimum size=5.5mm, inner sep=0pt, fill=WarmOrange!15, draw=WarmOrange!80!black, line width=0.85pt},
+  posnode/.style={circle, minimum size=5.5mm, inner sep=0pt, fill=SoftGreen!14, draw=SoftGreen!70!black, line width=0.85pt},
+  tinylabel/.style={font=\scriptsize, text=gray!72}
+}
+
+
+% Proposal layout helpers. The Metropolis theme and palette above follow the supplied template.
+\usepackage{lmodern}
+\usepackage{appendixnumberbeamer}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamerfont{title}{size=\LARGE,series=\bfseries}
+\setbeamerfont{subtitle}{size=\normalsize}
+\setbeamerfont{footnote}{size=\tiny}
+\setbeamertemplate{itemize items}[circle]
+\setlength{\emergencystretch}{2em}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\newcommand{\sourceline}[1]{%
+  \begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=south west,inner sep=0pt,text width=13.65cm,align=left,
+    font=\fontsize{6.2}{7.4}\selectfont,text=gray!75]
+    at ([xshift=7mm,yshift=5.5mm]current page.south west) {#1};
+  \end{tikzpicture}}
+
+\newcommand{\smallnote}[1]{\par{\footnotesize\color{gray!80}#1\par}}
+\newcommand{\lead}[1]{{\large\color{SoftBlue}\bfseries #1\par}\vspace{0.45em}}
+\newcommand{\bodygap}{\par\vspace{0.5em}}
+\newcommand{\refpaper}{\href{https://arxiv.org/abs/2606.05725}{Liu, Guo \& Dong, 2026}}
+\newcommand{\refrepo}{\href{https://github.com/LabRAI/mmd-llm-mea-detection}{Official code and data instructions}}
+
+% Keep paragraphs explicit and avoid awkward mid-word breaks in slide text.
+\AtBeginDocument{\setlength{\parskip}{0.25em}\pgfplotsset{compat=1.18}}
+\hyphenpenalty=5000
