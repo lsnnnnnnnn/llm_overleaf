@@ -1,0 +1,21 @@
+{\centering
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\small}]
+\useasboundingbox (0,-0.5) rectangle (14.3,2.4);
+\node[anchor=east,align=right] at (3.05,1.7) {Changing normal usage};
+\node[anchor=east,align=right] at (3.05,0.6) {Same change\\with extraction};
+\fill[BlockBlue,rounded corners=2pt] (3.45,1.43) rectangle (7.3,1.97);
+\fill[SoftGreen!20,rounded corners=2pt] (7.3,1.43) rectangle (13.75,1.97);
+\fill[BlockBlue,rounded corners=2pt] (3.45,0.33) rectangle (7.3,0.87);
+\fill[SoftGreen!20,rounded corners=2pt] (7.3,0.33) rectangle (13.75,0.87);
+\node[font=\footnotesize] at (5.35,1.7) {Normal mix A};
+\node[font=\footnotesize] at (10.5,1.7) {Normal mix B};
+\foreach \x in {8.0,8.72,9.47,10.31,11.18,12.12,13.0}{
+\draw[WarmOrange,line width=2pt] (\x,0.35)--(\x,0.85);}
+\draw[gray!65,dashed] (7.3,0.15)--(7.3,2.15);
+\draw[WarmOrange!80!black,dashed] (8.0,0.12)--(8.0,1.05);
+\node[anchor=south,font=\footnotesize,text=WarmOrange!85!black] at (8.0,1.03) {attack onset $\tau$};
+\draw[softarrow] (3.45,-0.08)--(13.85,-0.08);
+\node[anchor=north,font=\footnotesize] at (8.55,-0.13) {query index};
+\node[anchor=north,font=\footnotesize] at (13.7,-0.13) {$H$};
+\end{tikzpicture}
+\par}

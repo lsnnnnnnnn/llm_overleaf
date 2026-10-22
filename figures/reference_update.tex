@@ -1,0 +1,10 @@
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\small}]
+\useasboundingbox (-0.1,-0.5) rectangle (8.15,4.2);
+\node[module,text width=2.0cm] (seed) at (1.2,1.8) {Trusted\\seed reference};
+\node[whitecard,text width=3.55cm,align=left,minimum height=1.2cm] (fixed) at (5.9,3.45) {\textbf{Frozen}\\Keep the seed only.};
+\node[orangecard,text width=3.55cm,align=left,minimum height=1.2cm] (rolling) at (5.9,1.8) {\textbf{Naive update}\\Admit recent queries.};
+\node[greencard,text width=3.55cm,align=left,minimum height=1.2cm] (trusted) at (5.9,0.15) {\textbf{Verified update}\\Admit confirmed benign.};
+\draw[softarrow] (seed.east)--++(0.6,0)|-(fixed.west);
+\draw[softarrow] (seed.east)--(rolling.west);
+\draw[softarrow] (seed.east)--++(0.6,0)|-(trusted.west);
+\end{tikzpicture}
